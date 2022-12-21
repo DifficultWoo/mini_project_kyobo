@@ -69,15 +69,15 @@ public class FileAPIController {
     String exportName = uri+"."+ext;
     Path targetFile = folderLocation.resolve(filename);
     Resource r = null; 
-     try { r = new UrlResource(targetFile.toUri()); }
+      try { r = new UrlResource(targetFile.toUri()); }
       catch(Exception e) { e.printStackTrace(); } 
       String contentType = null;
     try { contentType = request.getServletContext().getMimeType(r.getFile().getAbsolutePath());
     if(contentType == null) { 
       
       contentType = "application/octet-stream"; } }
-     catch(Exception e) { e.printStackTrace(); } 
-     return ResponseEntity.ok()
+      catch(Exception e) { e.printStackTrace(); } 
+      return ResponseEntity.ok()
     .contentType(MediaType.parseMediaType(contentType)) 
     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+URLEncoder.encode(exportName, "UTF-8")+"\"")
     .body(r);

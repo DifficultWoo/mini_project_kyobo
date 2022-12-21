@@ -36,43 +36,66 @@ public class APIController {
     @PageableDefault(size=5) Pageable pageable
   ) {
     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-
     
     Page<ViewEntity> page = viewRepo.getBookList(pageable);
-    // List<ViewEntity> list = page.getContent();
+
     List<ViewDetailInfoVO> list = new ArrayList<ViewDetailInfoVO>() ;
     for(ViewEntity data : page.getContent()) {
       ViewDetailInfoVO obj = new ViewDetailInfoVO();
       obj.copyValues(data);
       list.add(obj);
-      // data.setBiPrice(formatter.format(data.getBiPrice()));
-      // data.setDisCountPrice(formatter.format(data.getDisCountPrice()));
+
     }
     resultMap.put("total", page.getTotalPages());
     resultMap.put("curentpage",page.getNumber());
     resultMap.put("list",list);
-    
-    // NumberFormat formatter = new DecimalFormat("#,##0");// 소수점 이하 2자리까지만 노출
-    // List<ViewEntity> list = page.getContent();
-    // for(ViewEntity data : list) {
-    //   data.setStrPrice(formatter.format(data.getBiPrice()));
-    //   data.setStrDiscountPrice(formatter.format(data.getDisCountPrice()));
-    // }
+
     return resultMap;
   }
-  
+  // 타이틀 특정키워드로 검색기능 
   @GetMapping("book/search")
   public Map<String, Object> searchBookTitleList(
-    @RequestParam @Nullable String keyword
+    @RequestParam @Nullable String keyword,
+    @PageableDefault(size=5) Pageable pageable
   ) {
     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
-    if(keyword == null) keyword ="";
- 
-    // resultMap.put("keyword", keyword);
-    List<ViewEntity> list = viewRepo.searchBookTitle(keyword);
+
+    List<ViewEntity> page = viewRepo.searchBookTitle(keyword, pageable);
+
+    // viewDetailInfo에 숫자 포맷팅 있음
+    List<ViewDetailInfoVO> list = new ArrayList<ViewDetailInfoVO>();
+    for(ViewEntity data : page) {
+      ViewDetailInfoVO obj = new ViewDetailInfoVO();
+      obj.copyValues(data);
+      list.add(obj);
+    }
+    resultMap.put("totalPage", viewRepo.getBookPageCount(keyword));
     resultMap.put("totalCount", list.size()); // 추가
     resultMap.put("list",list);
     return resultMap;
   }
+  // 작가이름으로 검색기능
+  @GetMapping("writer/search")
+  public Map<String, Object> searchWriterNameList(
+    @RequestParam @Nullable String keyword,
+    @PageableDefault(size=5) Pageable pageable
+  ) {
+    Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+    List<ViewEntity> page = viewRepo.searchWriterName(keyword, pageable);
+
+    // viewDetailInfo에 숫자 포맷팅 있음
+    List<ViewDetailInfoVO> list = new ArrayList<ViewDetailInfoVO>();
+    for(ViewEntity data : page) {
+      ViewDetailInfoVO obj = new ViewDetailInfoVO();
+      obj.copyValues(data);
+      list.add(obj);
+    }
+    resultMap.put("totalPage", viewRepo.getWriterPageCount(keyword));
+    resultMap.put("totalCount", list.size()); // 추가
+    resultMap.put("list",list);
+    return resultMap;
+  }
+  // 가격별 정렬
 }
 // ?page=0&size=10
