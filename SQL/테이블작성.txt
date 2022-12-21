@@ -1,0 +1,41 @@
+create database kyobo_sql;
+use kyobo_sql;
+
+create table book_info(
+bi_seq	int	not null	auto_increment primary key,
+bi_title	varchar(100)	not null,	
+bi_sub_title	varchar(100)	null,	
+bi_price	int	not null,	
+bi_discount	double	null,	
+bi_bimg_seq	int	not null,	
+bi_bw_seq	int	not null,	
+bi_bt_seq		int	null,	
+bi_bp_seq	int	not null	
+);
+
+create table book_detail_info(
+bdi_seq	int	not null	auto_increment	primary key,
+bdi_bi_seq	int	not null		,
+bdi_reg_dt	 datetime 	not null	default now(),	
+bdi_show	text	not null		
+);
+
+create table book_image(
+bimg_seq	int	not null	auto_increment	primary key,
+bimg_filename	text	not null		
+);
+
+create table book_writer(
+bw_seq	int	not null	auto_increment	primary key,
+bw_name	text	not null		
+);
+
+create table book_publisher(
+bp_seq	int	not null	auto_increment	primary key,
+bp_name	varchar(50)	not null		
+);
+
+create table book_translator(
+bt_seq	int	not null	auto_increment	primary key,
+bt_name	varchar(50)	not null		
+);

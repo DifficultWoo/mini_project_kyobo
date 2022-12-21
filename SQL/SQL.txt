@@ -1,0 +1,55 @@
+제목
+부제목
+사진
+저자
+출판사
+출시일
+1~10
+11~20
+21~30
+31~40
+41~50
+
+select bi_title, bi_sub_title, bimg_filename, bw_name, bp_name, bdi_reg_dt
+from book_info a join book_image b 
+on a.bi_bimg_seq = b.bimg_seq
+join book_writer c on a.bi_bw_seq = c.bw_seq
+join book_publisher d on a.bi_bp_seq = d.bp_seq
+join book_detail_info e on e.bdi_bi_seq=a.bi_seq;
+
+CREATE OR REPLACE VIEW v_detail 
+AS select bi_title, bi_sub_title, bimg_filename, bw_name, bp_name, bdi_reg_dt
+from book_info a join book_image b 
+on a.bi_bimg_seq = b.bimg_seq
+join book_writer c on a.bi_bw_seq = c.bw_seq
+join book_publisher d on a.bi_bp_seq = d.bp_seq
+join book_detail_info e on e.bdi_bi_seq=a.bi_seq;
+
+창비1
+웅진지식하우스1
+쓰다
+대원씨아이
+웅진지식하우스1
+은행나무1
+민음사
+여의도책방
+토트
+지혜
+
+김금희
+칩 히스, 댄 히스
+양귀자
+Eiichiro Oda
+이금희
+최진영
+다자이 오사무
+이현철
+엠제이 드마코
+나태주
+
+안진환, 백슬라 (스틱1)
+김춘미(인간실격)
+신소영(부의 추월차선)
+
+
+
