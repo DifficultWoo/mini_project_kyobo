@@ -72,7 +72,7 @@ public class APIController {
     resultMap.put("list",list);
     return resultMap;
   }
-  @GetMapping("/book/price/") // 가격별로 정렬
+  @GetMapping("book/price/") // 가격별로 정렬
   public Map<String, Object> getPrice(
     @PageableDefault(size=5) Pageable pageable
   ) {
