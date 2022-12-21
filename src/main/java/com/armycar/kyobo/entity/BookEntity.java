@@ -25,4 +25,5 @@ public class BookEntity {
     @Column(name = "bi_bw_seq") private Long biBwSeq;
     @Column(name = "bi_bt_seq") private Long biBtSeq;
     @Column(name = "bi_bp_seq") private Long biBpSeq;
+    // @Column(name = "bi_bimg_seq") private Long biBiSeq;
 }

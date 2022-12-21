@@ -1,7 +1,6 @@
 package com.armycar.kyobo.api;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,13 +37,11 @@ public class APIController {
     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
     
     Page<ViewEntity> page = viewRepo.getBookList(pageable);
-
     List<ViewDetailInfoVO> list = new ArrayList<ViewDetailInfoVO>() ;
     for(ViewEntity data : page.getContent()) {
       ViewDetailInfoVO obj = new ViewDetailInfoVO();
       obj.copyValues(data);
       list.add(obj);
-
     }
     resultMap.put("total", page.getTotalPages());
     resultMap.put("curentpage",page.getNumber());
@@ -98,4 +95,4 @@ public class APIController {
   }
   // 가격별 정렬
 }
-// ?page=0&size=10
+
