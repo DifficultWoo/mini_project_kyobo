@@ -1,7 +1,6 @@
 package com.armycar.kyobo.api;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,25 +38,18 @@ public class APIController {
 
     
     Page<ViewEntity> page = viewRepo.getBookList(pageable);
-    // List<ViewEntity> list = page.getContent();
     List<ViewDetailInfoVO> list = new ArrayList<ViewDetailInfoVO>() ;
     for(ViewEntity data : page.getContent()) {
       ViewDetailInfoVO obj = new ViewDetailInfoVO();
       obj.copyValues(data);
       list.add(obj);
-      // data.setBiPrice(formatter.format(data.getBiPrice()));
-      // data.setDisCountPrice(formatter.format(data.getDisCountPrice()));
+ 
     }
     resultMap.put("total", page.getTotalPages());
     resultMap.put("curentpage",page.getNumber());
     resultMap.put("list",list);
     
-    // NumberFormat formatter = new DecimalFormat("#,##0");// 소수점 이하 2자리까지만 노출
-    // List<ViewEntity> list = page.getContent();
-    // for(ViewEntity data : list) {
-    //   data.setStrPrice(formatter.format(data.getBiPrice()));
-    //   data.setStrDiscountPrice(formatter.format(data.getDisCountPrice()));
-    // }
+
     return resultMap;
   }
   
@@ -69,10 +61,36 @@ public class APIController {
     if(keyword == null) keyword ="";
  
     // resultMap.put("keyword", keyword);
-    List<ViewEntity> list = viewRepo.searchBookTitle(keyword);
+    List<ViewEntity> search = viewRepo.searchBookTitle(keyword);
+    List<ViewDetailInfoVO> list = new ArrayList<ViewDetailInfoVO>() ;
+    for(ViewEntity data : search) {
+      ViewDetailInfoVO obj = new ViewDetailInfoVO();
+      obj.copyValues(data);
+      list.add(obj);
+    }
     resultMap.put("totalCount", list.size()); // 추가
     resultMap.put("list",list);
     return resultMap;
   }
+  @GetMapping("/book/price/") // 가격별로 정렬
+  public Map<String, Object> getPrice(
+    @PageableDefault(size=5) Pageable pageable
+  ) {
+    Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+    
+    Page<ViewEntity> page = viewRepo.getPriceList(pageable);
+    List<ViewDetailInfoVO> list = new ArrayList<ViewDetailInfoVO>() ;
+    for(ViewEntity data : page.getContent()) {
+      ViewDetailInfoVO obj = new ViewDetailInfoVO();
+      obj.copyValues(data);
+      list.add(obj);
+    }
+    resultMap.put("total", page.getTotalPages());
+    resultMap.put("curentpage",page.getNumber());
+    resultMap.put("list",list);
+
+    return resultMap;
+  }
 }
-// ?page=0&size=10
+
