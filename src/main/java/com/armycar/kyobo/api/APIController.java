@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,7 @@ import com.armycar.kyobo.entity.ViewEntity;
 import com.armycar.kyobo.repoistory.BookRepository;
 import com.armycar.kyobo.repoistory.DetailRepository;
 import com.armycar.kyobo.repoistory.ViewRepository;
+import com.armycar.kyobo.service.KyoboService;
 import com.armycar.kyobo.vo.ViewDetailInfoVO;
 
 //home, booklist, member, detail
@@ -29,6 +32,7 @@ public class APIController {
   @Autowired BookRepository bookRepo; 
   @Autowired DetailRepository detailRepo;
   @Autowired ViewRepository viewRepo;
+  @Autowired KyoboService kyoboService;
 
   @GetMapping("/book/list/")
   public Map<String, Object> getBookList(
@@ -94,5 +98,14 @@ public class APIController {
     return resultMap;
   }
   // 가격별 정렬
+
+    @PutMapping("/book/add")
+    public Map<String, Object> getBookInfo(
+       @RequestBody ViewEntity data
+    ){
+     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+     resultMap = kyoboService.saveBookInfo(data);
+     return resultMap;
+  }
 }
 

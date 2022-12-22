@@ -20,4 +20,6 @@ public interface BookRepository extends JpaRepository<BookEntity, Long>{
     @Query(value = "select ceil(count(b)/5) from BookEntity b where b.biTitle like %:keyword%")
     Integer getBookPageCount(@Param("keyword") String keyword);
 
+    List<BookEntity> findByBiTitle(String biTitle);
+
 }
